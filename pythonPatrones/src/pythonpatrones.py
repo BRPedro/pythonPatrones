@@ -2,8 +2,10 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-__author__ = "PBR"
-__date__ = "$26/08/2016 03:04:18 PM$"
+import cv2
+import filtros
 
-if __name__ == "__main__":
-    print "Hello Pedro Barrantes"
+imagenes = filtros.Filtros("cul.jpg").mi_filtro()
+cv2.imwrite("nooo.jpg", imagenes)
+cv2.imshow("cierre.jpg", imagenes)
+cv2.waitKey(0)
