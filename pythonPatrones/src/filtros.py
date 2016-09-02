@@ -81,6 +81,7 @@ class Filtros:
         tiempo_ejecucion = tiempo_final - tiempo_inicial
         cv2.imwrite('gris2.jpg', gris2)
         print 'El tiempo de ejecucion de propio fue:', tiempo_ejecucion #En segundos
+        print "Hola Pedro"
 
         
          
