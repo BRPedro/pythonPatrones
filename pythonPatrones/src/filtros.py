@@ -3,7 +3,7 @@
 # and open the template in the editor.
 import cv2
 import numpy as np
-
+from time import time
 __author__ = "PBR"
 __date__ = "$01/09/2016 11:13:37 AM$"
 
@@ -36,32 +36,52 @@ class Filtros:
         return dilatacion
         
     def gradiente(self):
-        ee3  = np.ones((3,3),np.uint8)
-        gradiente =cv2.morphologyEx(self.gris, cv2.MORPH_GRADIENT,ee3)
+        ee3  = np.ones((3, 3), np.uint8)
+        gradiente = cv2.morphologyEx(self.gris, cv2.MORPH_GRADIENT, ee3)
         return gradiente
-    
-    
-    def tophat(self):
-        ee5 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(200,200))
-        tophat = cv2.morphologyEx(gray, cv2.MORPH_TOPHAT,ee5)
-        return tophat
+        
+    def tophat1(self):
+        ee5 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (200, 200))
+        tophat3 = cv2.morphologyEx(self.gray, cv2.MORPH_TOPHAT, ee5)
+        return tophat3
     
     def mi_filtro(self):
         newData = self.data
         filas, columnas, tipo = self.imagen.shape
         for f in range(filas):
             for c in range(columnas):
-                rojo,verde,azul=self.data[f][c]
+                rojo, verde, azul = self.data[f][c]
                 #promedio=(rojo+verde+azul)//3
                 if (rojo < verde) and (azul < verde):
-                    newData[f][c]=[0,255,0]
+                    newData[f][c] = [0, 255, 0]
                 else:
-                    newData[f][c]=[255,255,255]
+                    newData[f][c] = [255, 255, 255]
         cv2.imwrite('tem.jpg', newData)
-        tem=cv2.imread('tem.jpg')
+        tem = cv2.imread('tem.jpg')
         return tem
-        
     
+    def dos_grises(self):
+        tiempo_inicial = time()
+        gris2 = cv2.cvtColor(self.imagen, cv2.COLOR_BGR2GRAY)
+        tiempo_final = time()  
+        tiempo_ejecucion = tiempo_final - tiempo_inicial
+        cv2.imwrite('gris1.jpg', gris2)
+        print 'El tiempo de ejecucion de opencv fue:', tiempo_ejecucion #En segundos
+        
+        tiempo_inicial = time()
+        newData = self.data
+        filas, columnas, tipo = self.imagen.shape
+        for f in range(filas):
+            for c in range(columnas):
+                rojo, verde, azul = self.data[f][c]
+                promedio = (rojo + verde + azul) // 3
+                newData[f][c] = [promedio, promedio, promedio]
+        cv2.imwrite('gris2.jpg', newData)
+        tiempo_final = time()  
+        tiempo_ejecucion = tiempo_final - tiempo_inicial
+        cv2.imwrite('gris2.jpg', gris2)
+        print 'El tiempo de ejecucion de propio fue:', tiempo_ejecucion #En segundos
+
         
          
         
